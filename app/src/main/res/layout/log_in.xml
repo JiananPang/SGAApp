@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <TextView
+            android:text="SGA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteY="119dp"
+            tools:layout_editor_absoluteX="149dp"
+            android:textColor="@color/colorBlack"
+            android:textStyle=""
+            android:id="@+id/app_name"
+            android:textSize="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="104dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:hint="@string/username"
+            android:layout_alignParentTop="true" android:layout_marginTop="196dp"
+            android:layout_alignStart="@+id/editText2"
+            android:layout_alignLeft="@+id/editText2"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/password"
+            android:layout_alignParentBottom="true" android:id="@+id/editText2"
+            android:layout_marginBottom="210dp"/>
+    <Button
+            android:text="@string/log_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/log_in_button"
+            android:background="@color/colorOrange"
+            android:textColor="@color/colorWhite"
+            android:layout_marginBottom="115dp"/>
+
+</RelativeLayout>
