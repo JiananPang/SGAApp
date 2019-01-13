@@ -9,4 +9,16 @@
     <string name="log_in_button">Log In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="fragment_faqs_body1">
+        What does the SGA do?
+    </string>
+    <string name="fragment_faqs_body2">
+        The Student Government Association is an organization that helps provide
+        Rose-Hulman students with opportunities to be involved on campus in meaningful ways via leadership, club
+        sponsoring, and the ability to make valuable changes to the Rose community. Thought the Executive Board, Senate,
+        and Judiciary Board students are encouraged to become more active in the campus community through legislature
+        changes, communicating the opinions of students on and off campus, and finding ways to better the Rose-Hulman
+        campus.
+    </string>
+    <string name="fragment_faqs_title">FAQs</string>
 </resources>
