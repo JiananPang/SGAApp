@@ -21,4 +21,8 @@
         campus.
     </string>
     <string name="fragment_faqs_title">FAQs</string>
+    <string name="upcomingevents">Upcoming Events</string>
+    <string name="news">News</string>
+    <string name="suggestionbox">Suggestion box</string>
+    <string name="documents">Documents</string>
 </resources>

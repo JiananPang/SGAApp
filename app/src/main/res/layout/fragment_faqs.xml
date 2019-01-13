@@ -9,9 +9,7 @@
             android:layout_width="match_parent"
             android:text="@string/fragment_faqs_title"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textSize="30sp"/>
 
     <ScrollView
             android:id="@+id/scrollView"
