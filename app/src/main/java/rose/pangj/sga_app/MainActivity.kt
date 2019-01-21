@@ -3,6 +3,7 @@ package rose.pangj.sga_app
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -16,12 +17,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        fragmentTransaction(LogInFragment())
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -57,29 +55,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var switchTo: Fragment? = null
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.upcoming_events -> {
                 // Handle the camera action
+                switchTo = EventFragment()
             }
-            R.id.nav_gallery -> {
+            R.id.news -> {
+                switchTo = NewsFragment()
 
             }
-            R.id.nav_slideshow -> {
+
+            R.id.suggestion_box -> {
+                switchTo = SuggestionBoxFragment()
 
             }
-            R.id.nav_manage -> {
+            R.id.documents -> {
+                switchTo = DocumentsFragment()
 
             }
-            R.id.nav_share -> {
-
+            R.id.FAQs -> {
+                switchTo = FAQFragment()
             }
-            R.id.nav_send -> {
+        }
 
-            }
+        if (switchTo != null) {
+            fragmentTransaction(switchTo)
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun fragmentTransaction(switchTo: Fragment){
+        if (switchTo != null) {
+            val ft = supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, switchTo)
+            for (i in 0 until supportFragmentManager.backStackEntryCount) {
+                supportFragmentManager.popBackStackImmediate()
+            }
+
+            ft.commit()
+        }
     }
 }
