@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/faqs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <TextView
-            android:text="@string/fragment_faqs_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/document_textView"
-            android:layout_margin="20dp"
-            android:textStyle="bold"
-            android:textSize="30sp"
-    />
-
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/document_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-</LinearLayout>
+        android:background="@android:color/darker_gray"/>

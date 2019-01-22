@@ -17,7 +17,7 @@ object DocUtils {
         val resources = arrayOf(
             R.raw.constitution,
             R.raw.treasury_operating_code,
-            R.raw.finance 
+            R.raw.finance
 
         )
         val docs = ArrayList<Doc>()

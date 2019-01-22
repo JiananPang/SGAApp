@@ -24,7 +24,8 @@
             android:ems="10"
             android:id="@+id/editText"
             android:hint="@string/username"
-            android:layout_alignParentTop="true" android:layout_marginTop="196dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="300dp"
             android:layout_alignStart="@+id/editText2"
             android:layout_alignLeft="@+id/editText2"/>
     <EditText
@@ -34,8 +35,9 @@
             android:ems="10"
             android:layout_centerHorizontal="true"
             android:hint="@string/password"
-            android:layout_alignParentBottom="true" android:id="@+id/editText2"
-            android:layout_marginBottom="210dp"/>
+            android:layout_below="@+id/editText"
+
+            android:id="@+id/editText2"/>
     <Button
             android:text="@string/log_in_button"
             android:layout_width="wrap_content"
