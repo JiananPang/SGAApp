@@ -12,7 +12,9 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,  DocumentsFragment.OnDocSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    DocumentsFragment.OnDocSelectedListener, NewsFragment.OnNewsSelectedListener {
+    val mNewsFragment = NewsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
+        fab.setOnClickListener { view ->
+            mNewsFragment.adapter.showAddEditDialog()
+        }
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -63,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 switchTo = EventFragment()
             }
             R.id.news -> {
-                switchTo = NewsFragment()
+                switchTo = mNewsFragment
 
             }
 
@@ -102,6 +107,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onDocSelected(doc: Doc) {
         val fragment = DocDetailFragment.newInstance(doc)
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, fragment)
+        ft.addToBackStack("detail")
+        ft.commit()
+    }
+
+    override fun onNewsSelected(pic: News) {
+        val fragment = NewsDetailFragment.newInstance(pic)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
         ft.addToBackStack("detail")
