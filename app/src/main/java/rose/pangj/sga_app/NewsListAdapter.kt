@@ -37,7 +37,7 @@ class NewsListAdapter(var context: Context?, var listener: NewsFragment.OnNewsSe
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val caption = view.edit_caption.text.toString()
             var urlString = view.edit_url.text.toString()
-            add(News(caption,"", urlString))
+            add(caption,"", urlString)
 
         }
         builder.setNegativeButton(android.R.string.cancel, null)
@@ -129,8 +129,8 @@ class NewsListAdapter(var context: Context?, var listener: NewsFragment.OnNewsSe
     override fun getItemCount() = newss.size
 
 
-    fun add(news: News){
-        ref.add(news)
+    fun add(cap: String, date: String, con: String){
+        ref.add(News(cap, date, con))
     }
 
     fun selectNewsAt(pos: Int){
