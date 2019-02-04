@@ -18,7 +18,7 @@ class LogInFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.log_in, container, false)
         view.log_in_button.setOnClickListener {
-            listener?.onLoginButtonPressed()
+            listener?.onRosefireLogin()
         }
         return view
     }
@@ -38,6 +38,6 @@ class LogInFragment : Fragment() {
     }
 
     interface OnLoginButtonPressedListener {
-        fun onLoginButtonPressed()
+        fun onRosefireLogin()
     }
 }

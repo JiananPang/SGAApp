@@ -26,4 +26,5 @@
     <string name="suggestionbox">Suggestion box</string>
     <string name="documents">Documents</string>
     <string name="your_sga_text">Your SGA</string>
+    <string name="logout">Logout</string>
 </resources>

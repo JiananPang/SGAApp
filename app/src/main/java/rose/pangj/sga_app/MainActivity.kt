@@ -1,5 +1,7 @@
 package rose.pangj.sga_app
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -7,16 +9,23 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    DocumentsFragment.OnDocSelectedListener, NewsFragment.OnNewsSelectedListener, LogInFragment.OnLoginButtonPressedListener {
+class MainActivity : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener,
+    DocumentsFragment.OnDocSelectedListener,
+    NewsFragment.OnNewsSelectedListener,
+    EventFragment.OnEventSelectedListener,
+    LogInFragment.OnLoginButtonPressedListener {
 
     val mNewsFragment = NewsFragment()
+    val mEventFragment = EventFragment()
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_ROSEFIRE_LOGIN = 1
@@ -43,9 +52,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onLoginButtonPressed() {
-//        val signInIntent = Rosefire.getSignInIntent(this,"bf999ecb-f11b-4d0d-88af-a1860eedaea3")
-//        startActivityForResult(signInIntent, RC_ROSEFIRE_LOGIN)
+    override fun onRosefireLogin() {
+        val signInIntent = Rosefire.getSignInIntent(this,"76fbcaed-1f89-4647-93c0-6302ae336ced")
+        startActivityForResult(signInIntent, RC_ROSEFIRE_LOGIN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == RC_ROSEFIRE_LOGIN) {
+            val result = Rosefire.getSignInResultFromIntent(data)
+            if (result.isSuccessful) {
+                auth.signInWithCustomToken(result.token)
+            } else {
+                Log.d(Constants.TAG, "Rosefire failed")
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         fab.setOnClickListener { view ->
-            mNewsFragment.adapter.showAddEditDialog()
+            mEventFragment.adapter.showAddEditDialog()
         }
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -85,9 +106,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_logout ->{
+                auth.signOut()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -97,7 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.upcoming_events -> {
                 // Handle the camera action
-                switchTo = EventFragment()
+                switchTo = mEventFragment
             }
             R.id.news -> {
                 switchTo = mNewsFragment
@@ -135,6 +159,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             ft.commit()
         }
+    }
+
+    override fun onEventSelected(event: Event) {
+        val fragment = EventFragment()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, fragment)
+        ft.addToBackStack("detail")
+        ft.commit()
     }
 
     override fun onDocSelected(doc: Doc) {

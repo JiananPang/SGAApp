@@ -59,27 +59,6 @@ class EventListAdapter(var context: Context?, var listener: EventFragment.OnEven
             }
     }
 
-    fun removeSnapshotListener() {
-        Log.d(Constants.TAG, "Removing listener")
-        listenerRegistration.remove()
-        //movieQuotes.clear()
-    }
-
-    fun populateLocalQuotes(querySnapshot: QuerySnapshot) {
-        // First attempt: just get them all.
-        Log.d(Constants.TAG, "Populating")
-        events.clear()
-        for (document in querySnapshot.documents) {
-            // This is a very convenient helper method.
-            Log.d(Constants.TAG, "document: $document")
-            events.add(Event.fromSnapshot(document))
-        }
-        notifyDataSetChanged()
-        if (events.isNotEmpty()) {
-            Log.d(Constants.TAG, "ID of first: " + events[0].id)
-        }
-    }
-
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         // Snapshots has documents and documentChanges which are flagged by type,
         // so we can handle C,U,D differently.
@@ -117,10 +96,8 @@ class EventListAdapter(var context: Context?, var listener: EventFragment.OnEven
         }
     }
 
-
-
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): EventViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.row_view_news, p0, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.row_view_events, p0, false)
         return EventViewHolder(view, this)
     }
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
@@ -131,7 +108,7 @@ class EventListAdapter(var context: Context?, var listener: EventFragment.OnEven
 
 
     fun add(cap: String, con: String){
-        ref.add(News(cap, con))
+        ref.add(Event(cap, con))
     }
 
     fun selectEventAt(pos: Int){
