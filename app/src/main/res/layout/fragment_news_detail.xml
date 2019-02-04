@@ -13,14 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_alignParentBottom="true"
-            android:textSize="30sp" />
+            android:textSize="30sp"/>
 
     <TextView
             android:id="@+id/news_date_textView"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_below="@+id/news_title_textView"
-            android:textSize="30sp" />
+            android:textSize="30sp"/>
     <TextView
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
