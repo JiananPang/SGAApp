@@ -1,24 +1,24 @@
 package rose.pangj.sga_app
 
-    import android.app.AlertDialog
-    import android.content.Context
-    import android.support.v7.widget.RecyclerView
-    import android.util.Log
-    import android.view.LayoutInflater
-    import android.view.ViewGroup
-    import com.google.firebase.firestore.DocumentChange
-    import com.google.firebase.firestore.FirebaseFirestore
-    import com.google.firebase.firestore.ListenerRegistration
-    import com.google.firebase.firestore.QuerySnapshot
-    import kotlinx.android.synthetic.main.dialog_add_edit_pic.view.*
+import android.app.AlertDialog
+import android.content.Context
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.android.synthetic.main.dialog_add_edit_pic.view.*
 
 
-    class EventListAdapter(var context: Context?, var listener: EventFragment.OnEventSelectedListener?): RecyclerView.Adapter<EventViewHolder>() {
-        var events = ArrayList<Event>()
+class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.OnSenatorSelectedListener?): RecyclerView.Adapter<SenatorViewHolder>() {
+    var senators = ArrayList<Event>()
 
-        private val ref = FirebaseFirestore
+    private val ref = FirebaseFirestore
         .getInstance()
-        .collection(Constants.EVENT)
+        .collection(Constants.SENATOR)
     private lateinit var listenerRegistration: ListenerRegistration
 
     fun showAddEditDialog(position: Int = -1) {
@@ -31,8 +31,8 @@ package rose.pangj.sga_app
 
         builder.setIcon(android.R.drawable.ic_input_add)
         if (position >= 0) {
-            view.edit_caption.setText(events[position].newscaption)
-            view.edit_url.setText(events[position].newscontent)
+            view.edit_caption.setText(senators[position].newscaption)
+            view.edit_url.setText(senators[position].newscontent)
         }
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
@@ -54,7 +54,6 @@ package rose.pangj.sga_app
                     Log.w(Constants.TAG, "listen error", e)
                     return@addSnapshotListener
                 }
-//                populateLocalQuotes(querySnapshot!!)
                 processSnapshotChanges(querySnapshot!!)
             }
     }
@@ -67,16 +66,16 @@ package rose.pangj.sga_app
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
                     Log.d(Constants.TAG, "Adding $pic")
-                    events.add(0, pic)
+                    senators.add(0, pic)
                     notifyItemInserted(0)
                 }
                 DocumentChange.Type.REMOVED -> {
                     Log.d(Constants.TAG, "Removing $pic")
 //                    movieQuotes.remove(movieQuote)
 //                    notifyDataSetChanged()
-                    for ((k, mq) in events.withIndex()) {
+                    for ((k, mq) in senators.withIndex()) {
                         if (mq.id == pic.id) {
-                            events.removeAt(k)
+                            senators.removeAt(k)
                             notifyItemRemoved(k)
                             break
                         }
@@ -84,9 +83,9 @@ package rose.pangj.sga_app
                 }
                 DocumentChange.Type.MODIFIED -> {
                     Log.d(Constants.TAG, "Modifying $pic")
-                    for ((k, mq) in events.withIndex()) {
+                    for ((k, mq) in senators.withIndex()) {
                         if (mq.id == pic.id) {
-                            events[k] = pic
+                            senators[k] = pic
                             notifyItemChanged(k)
                             break
                         }
@@ -96,26 +95,23 @@ package rose.pangj.sga_app
         }
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): EventViewHolder {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): SenatorViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.row_view_events, p0, false)
-        return EventViewHolder(view, this)
+        return SenatorViewHolder(view, this)
     }
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SenatorViewHolder, position: Int) {
 
-        holder.bind(events[position])
+        holder.bind(senators[position])
     }
-    override fun getItemCount() = events.size
+    override fun getItemCount() = senators.size
 
 
     fun add(cap: String, con: String){
         ref.add(Event(cap, con))
     }
 
-    fun selectEventAt(pos: Int){
-        listener?.onEventSelected(events[pos])
+    fun selectSenatorAt(pos: Int){
+        listener?.onSenatorSelected(senators[pos])
     }
-
-
-
 
 }

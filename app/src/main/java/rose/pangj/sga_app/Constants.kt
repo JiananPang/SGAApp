@@ -4,5 +4,5 @@ object Constants{
     const val TAG = "PIC"
     const val NEWS = "News"
     const val EVENT= "Event"
-    const val TITLE_COLLECTION = "TITLE"
+    const val SENATOR = "Senators"
 }
