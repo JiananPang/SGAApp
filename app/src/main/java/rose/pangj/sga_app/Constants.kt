@@ -5,4 +5,5 @@ object Constants{
     const val NEWS = "News"
     const val EVENT= "Event"
     const val SENATOR = "Senators"
+    const val CHAT_COLLECTION = "chat"
 }

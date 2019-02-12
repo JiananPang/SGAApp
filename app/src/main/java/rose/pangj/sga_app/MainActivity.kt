@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity(),
     SenatorFragment.OnSenatorSelectedListener,
     LogInFragment.OnLoginButtonPressedListener {
 
-    val mSenatorFragment = SenatorFragment()
+    var mSenatorFragment = SenatorFragment()
     val mEventFragment = EventFragment()
+    var mChatFragment = SenatorFragment()
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_ROSEFIRE_LOGIN = 1
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(),
                 fragmentTransaction(LogInFragment())
             }else {
                 fragmentTransaction(NewsFragment())
+                mSenatorFragment = SenatorFragment()
             }
         }
     }
@@ -83,6 +85,7 @@ class MainActivity : AppCompatActivity(),
         fab.setOnClickListener { view ->
             mSenatorFragment.adapter.showAddEditDialog(auth.currentUser!!.uid, -1)
         }
+        fab.hide()
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -171,7 +174,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSenatorSelected(senator: Senator) {
-        val fragment = SuggestionBoxFragment()
+        val fragment = SuggestionBoxFragment.newInstance(senator.uid, auth.currentUser!!.uid)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
         ft.addToBackStack("detail")

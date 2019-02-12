@@ -10,15 +10,24 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_suggestion_box.*
 import kotlinx.android.synthetic.main.fragment_suggestion_box.view.*
 
-
+private const val ARG_MUID = "MUID"
+private const val ARG_SUID = "SUID"
 class SuggestionBoxFragment() : Fragment(){
-    var uid = ""
+    var muid = ""
+    var suid = ""
     lateinit var adapter: UserChatListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = UserChatListAdapter(context!!, uid )
+        arguments?.let {
+            suid = it.getString(ARG_SUID)
+            muid = it.getString(ARG_MUID)
+
+        }
+
+        adapter = UserChatListAdapter(context!!, suid, muid )
+        adapter.addSnapshotListener()
 
 
     }
@@ -32,11 +41,21 @@ class SuggestionBoxFragment() : Fragment(){
         view.messages_view.adapter = adapter
         view.sendMessage.setOnClickListener{
             val input = editText.text
-            adapter.add(Message(input.toString(), "", ""))
+            adapter.add(Message(input.toString(), suid, muid))
             input.clear()
 
         }
         return view
+    }
+    companion object {
+        @JvmStatic
+        fun newInstance(suid: String, muid: String) =
+            SuggestionBoxFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_SUID, suid)
+                    putString(ARG_MUID, muid)
+                }
+            }
     }
 
 

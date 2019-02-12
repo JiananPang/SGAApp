@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+private const val ARG_MY_UID = "UID"
 class SenatorFragment : Fragment() {
+
     lateinit var adapter: SenatorListAdapter
     private var listener: SenatorFragment.OnSenatorSelectedListener? = null
 
@@ -48,6 +50,7 @@ class SenatorFragment : Fragment() {
         fun onSenatorSelected(senator: Senator)
 
     }
+
 
 
 }

@@ -28,4 +28,5 @@
     <string name="your_sga_text">Your SGA</string>
     <string name="logout">Logout</string>
     <string name="senator_list_text">Senator List</string>
+    <string name="token_str">76fbcaed-1f89-4647-93c0-6302ae336ced</string>
 </resources>
