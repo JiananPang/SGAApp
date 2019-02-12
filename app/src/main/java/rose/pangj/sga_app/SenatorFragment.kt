@@ -36,7 +36,7 @@ class SenatorFragment : Fragment() {
         if (context is OnSenatorSelectedListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnDocSelectedListener")
+            throw RuntimeException(context.toString() + " must implement OnSenatorSelectedListener")
         }
     }
 
@@ -45,7 +45,7 @@ class SenatorFragment : Fragment() {
         listener = null
     }
     interface OnSenatorSelectedListener {
-        fun onSenatorSelected(event: Event)
+        fun onSenatorSelected(senator: Senator)
 
     }
 

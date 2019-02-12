@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/sga_launcher"
             android:layout_centerInParent="true"
+            android:maxHeight="250dp"
+            android:maxWidth="250dp"
     />
     <Button
             android:text="@string/log_in_button"

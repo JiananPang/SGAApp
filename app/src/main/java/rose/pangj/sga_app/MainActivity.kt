@@ -22,9 +22,10 @@ class MainActivity : AppCompatActivity(),
     DocumentsFragment.OnDocSelectedListener,
     NewsFragment.OnNewsSelectedListener,
     EventFragment.OnEventSelectedListener,
+    SenatorFragment.OnSenatorSelectedListener,
     LogInFragment.OnLoginButtonPressedListener {
 
-    val mNewsFragment = NewsFragment()
+    val mSenatorFragment = SenatorFragment()
     val mEventFragment = EventFragment()
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onRosefireLogin() {
-        val signInIntent = Rosefire.getSignInIntent(this, R.string.token.toString())
+        val signInIntent = Rosefire.getSignInIntent(this, getString(R.string.token_str))
         startActivityForResult(signInIntent, RC_ROSEFIRE_LOGIN)
     }
 
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity(),
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         fab.setOnClickListener { view ->
-            mEventFragment.adapter.showAddEditDialog()
+            mSenatorFragment.adapter.showAddEditDialog(auth.currentUser!!.uid, -1)
         }
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -124,12 +125,12 @@ class MainActivity : AppCompatActivity(),
                 switchTo = mEventFragment
             }
             R.id.news -> {
-                switchTo = mNewsFragment
+                switchTo = NewsFragment()
 
             }
 
             R.id.suggestion_box -> {
-                switchTo = SuggestionBoxFragment()
+                switchTo = mSenatorFragment
 
             }
             R.id.documents -> {
@@ -163,6 +164,14 @@ class MainActivity : AppCompatActivity(),
 
     override fun onEventSelected(event: Event) {
         val fragment = EventFragment()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, fragment)
+        ft.addToBackStack("detail")
+        ft.commit()
+    }
+
+    override fun onSenatorSelected(senator: Senator) {
+        val fragment = SuggestionBoxFragment()
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
         ft.addToBackStack("detail")

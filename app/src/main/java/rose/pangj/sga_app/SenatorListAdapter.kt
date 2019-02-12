@@ -14,16 +14,16 @@ import kotlinx.android.synthetic.main.dialog_add_edit_pic.view.*
 
 
 class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.OnSenatorSelectedListener?): RecyclerView.Adapter<SenatorViewHolder>() {
-    var senators = ArrayList<Event>()
+    var senators = ArrayList<Senator>()
 
     private val ref = FirebaseFirestore
         .getInstance()
         .collection(Constants.SENATOR)
     private lateinit var listenerRegistration: ListenerRegistration
 
-    fun showAddEditDialog(position: Int = -1) {
+    fun showAddEditDialog( uid: String, position: Int) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Add a quote")
+        builder.setTitle("Add a senator")
         val view = LayoutInflater.from(context).inflate(
             R.layout.dialog_add_edit_pic, null, false
         )
@@ -31,14 +31,14 @@ class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.On
 
         builder.setIcon(android.R.drawable.ic_input_add)
         if (position >= 0) {
-            view.edit_caption.setText(senators[position].newscaption)
-            view.edit_url.setText(senators[position].newscontent)
+            view.edit_caption.setText(senators[position].name)
+            view.edit_url.setText(senators[position].district)
         }
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val caption = view.edit_caption.text.toString()
             var urlString = view.edit_url.text.toString()
-            add(caption, urlString)
+            add(caption, urlString, uid, R.mipmap.tony_xi_profile_round)
 
         }
         builder.setNegativeButton(android.R.string.cancel, null)
@@ -62,19 +62,19 @@ class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.On
         // Snapshots has documents and documentChanges which are flagged by type,
         // so we can handle C,U,D differently.
         for (documentChange in querySnapshot.documentChanges) {
-            val pic = Event.fromSnapshot(documentChange.document)
+            val senator = Senator.fromSnapshot(documentChange.document)
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
-                    Log.d(Constants.TAG, "Adding $pic")
-                    senators.add(0, pic)
+                    Log.d(Constants.TAG, "Adding $senator")
+                    senators.add(0, senator)
                     notifyItemInserted(0)
                 }
                 DocumentChange.Type.REMOVED -> {
-                    Log.d(Constants.TAG, "Removing $pic")
+                    Log.d(Constants.TAG, "Removing $senator")
 //                    movieQuotes.remove(movieQuote)
 //                    notifyDataSetChanged()
                     for ((k, mq) in senators.withIndex()) {
-                        if (mq.id == pic.id) {
+                        if (mq.id == senator.id) {
                             senators.removeAt(k)
                             notifyItemRemoved(k)
                             break
@@ -82,10 +82,10 @@ class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.On
                     }
                 }
                 DocumentChange.Type.MODIFIED -> {
-                    Log.d(Constants.TAG, "Modifying $pic")
+                    Log.d(Constants.TAG, "Modifying $senator")
                     for ((k, mq) in senators.withIndex()) {
-                        if (mq.id == pic.id) {
-                            senators[k] = pic
+                        if (mq.id == senator.id) {
+                            senators[k] = senator
                             notifyItemChanged(k)
                             break
                         }
@@ -96,18 +96,16 @@ class SenatorListAdapter(var context: Context?, var listener: SenatorFragment.On
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): SenatorViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.row_view_events, p0, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.senator_row_view, p0, false)
         return SenatorViewHolder(view, this)
     }
     override fun onBindViewHolder(holder: SenatorViewHolder, position: Int) {
-
         holder.bind(senators[position])
     }
     override fun getItemCount() = senators.size
 
-
-    fun add(cap: String, con: String){
-        ref.add(Event(cap, con))
+    fun add(cap: String, con: String, uid: String, src: Int){
+        ref.add(Senator(cap, con, uid, src))
     }
 
     fun selectSenatorAt(pos: Int){
