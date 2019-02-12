@@ -37,8 +37,11 @@ class UserChatListAdapter(var context: Context, var suid: String, var muid: Stri
             val message = Message.fromSnapshot(documentChange.document)
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
-                    messages.add(message)
-                    notifyDataSetChanged()
+                    if((message.sendBy == muid && message.receiveBy == suid) ||
+                        (message.receiveBy == muid && message.sendBy == suid)) {
+                        messages.add(message)
+                        notifyDataSetChanged()
+                    }
                 }
 
             }
@@ -69,7 +72,7 @@ class UserChatListAdapter(var context: Context, var suid: String, var muid: Stri
         val messageInflater = context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val message = messages[i]
 
-        if (message.sendBy == muid) { // this message was sent by us so let's create a basic chat bubble on the right
+        if (message.sendBy == muid && message.receiveBy == suid) { // this message was sent by us so let's create a basic chat bubble on the right
             convertView = messageInflater.inflate(R.layout.my_message, null)
             holder.messageBody = convertView.findViewById(R.id.message_body)
             convertView.setTag(holder)
