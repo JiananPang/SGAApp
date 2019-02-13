@@ -30,7 +30,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="45dp"
-                android:textSize="24sp" />
+                android:textSize="16sp" />
         <TextView
                 android:text="Hi"
                 android:id="@+id/news_date"
@@ -38,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="140dp"
-                android:textSize="16sp" />
+                android:layout_marginTop="100dp"
+                android:textSize="24sp" />
 
 
     </android.support.v7.widget.CardView>
