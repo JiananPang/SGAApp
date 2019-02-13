@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 
-data class Event(var newscaption: String = "", var newscontent: String = ""): Parcelable {
+data class Event(var newscaption: String = "", var newscontent: String = "",var date: String = ""): Parcelable {
     @get:Exclude
     var id = ""
     @ServerTimestamp
@@ -15,7 +15,9 @@ data class Event(var newscaption: String = "", var newscontent: String = ""): Pa
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readString()
+
     )
     override fun describeContents(): Int {
         return 0
@@ -24,6 +26,7 @@ data class Event(var newscaption: String = "", var newscontent: String = ""): Pa
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(newscaption)
         parcel.writeString(newscontent)
+        parcel.writeString(date)
     }
 
     companion object CREATOR : Parcelable.Creator<Event> {

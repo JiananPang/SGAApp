@@ -27,8 +27,11 @@ class MainActivity : AppCompatActivity(),
 
     var mSenatorFragment = SenatorFragment()
     val mEventFragment = EventFragment()
-    var mChatFragment = SenatorFragment()
+    var mDocumentFragment = DocumentsFragment()
+    var mNewsFragment = NewsFragment()
+    var mFAQFragment = FAQFragment()
     val auth = FirebaseAuth.getInstance()
+    var isAdmin = false
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_ROSEFIRE_LOGIN = 1
 
@@ -49,7 +52,13 @@ class MainActivity : AppCompatActivity(),
             if(user == null){
                 fragmentTransaction(LogInFragment())
             }else {
-                fragmentTransaction(NewsFragment())
+                if(user.uid == "xix1" || user.uid == "pangj"){
+                    isAdmin = true
+                }
+                else{
+                    fab.hide()
+                }
+                fragmentTransaction(mNewsFragment)
                 mSenatorFragment = SenatorFragment()
             }
         }
@@ -77,19 +86,24 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         initializeListeners()
+        if(isAdmin == true) {
+            fab.setOnClickListener {
+                mNewsFragment.adapter.showAddEditDialog()
+            }
+        }else{
+            fab.hide()
+        }
 
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        fab.setOnClickListener { view ->
-            mSenatorFragment.adapter.showAddEditDialog(auth.currentUser!!.uid, -1)
-        }
-        fab.hide()
+
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
     }
 
     override fun onBackPressed() {
@@ -126,28 +140,46 @@ class MainActivity : AppCompatActivity(),
             R.id.upcoming_events -> {
                 // Handle the camera action
                 switchTo = mEventFragment
+                fragmentTransaction(switchTo)
+                if(isAdmin == true){
+                    fab.show()
+                    fab.setOnClickListener {
+                        mEventFragment.adapter.showAddEditDialog()
+                    }
+                }
+
             }
             R.id.news -> {
-                switchTo = NewsFragment()
+                switchTo = mNewsFragment
+                fragmentTransaction(switchTo)
+                if(isAdmin == true) {
+                    fab.show()
+                    fab.setOnClickListener {
+                        mNewsFragment.adapter.showAddEditDialog()
+                    }
+                }
 
             }
 
             R.id.suggestion_box -> {
                 switchTo = mSenatorFragment
+                fragmentTransaction(switchTo)
+                fab.hide()
 
             }
             R.id.documents -> {
-                switchTo = DocumentsFragment()
+                switchTo = mDocumentFragment
+                fragmentTransaction(switchTo)
+                fab.hide()
 
             }
             R.id.FAQs -> {
-                switchTo = FAQFragment()
+                switchTo = mFAQFragment
+                fragmentTransaction(switchTo)
+                fab.hide()
             }
         }
 
-        if (switchTo != null) {
-            fragmentTransaction(switchTo)
-        }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true

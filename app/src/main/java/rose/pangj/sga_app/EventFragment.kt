@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class EventFragment : Fragment() {
     lateinit var adapter: EventListAdapter
@@ -26,6 +27,7 @@ class EventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        //(activity as MainActivity).fab.show()
         val recyclerView = inflater.inflate(R.layout.fragment_event_list, container, false) as RecyclerView
 
         recyclerView.adapter = adapter

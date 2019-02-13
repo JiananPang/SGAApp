@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_news_detail.view.*
 
 private const val ARG = "news"
@@ -29,6 +30,7 @@ class NewsDetailFragment: Fragment(){
         view.news_title_textView.text = news?.newscaption
         view.news_date_textView.text = news?.newsdate
         view.newsContentTextView.text = news?.newscontent
+        (activity as MainActivity).fab.hide()
         return view
     }
     companion object {

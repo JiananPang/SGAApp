@@ -23,7 +23,7 @@ package rose.pangj.sga_app
 
     fun showAddEditDialog(position: Int = -1) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Add a quote")
+        builder.setTitle("Add a event")
         val view = LayoutInflater.from(context).inflate(
             R.layout.dialog_add_edit_pic, null, false
         )
@@ -33,12 +33,14 @@ package rose.pangj.sga_app
         if (position >= 0) {
             view.edit_caption.setText(events[position].newscaption)
             view.edit_url.setText(events[position].newscontent)
+            view.edit_date.setText(events[position].date)
         }
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val caption = view.edit_caption.text.toString()
             var urlString = view.edit_url.text.toString()
-            add(caption, urlString)
+            var date = view.edit_date.text.toString()
+            add(caption, urlString, date)
 
         }
         builder.setNegativeButton(android.R.string.cancel, null)
@@ -107,8 +109,8 @@ package rose.pangj.sga_app
     override fun getItemCount() = events.size
 
 
-    fun add(cap: String, con: String){
-        ref.add(Event(cap, con))
+    fun add(cap: String, con: String, date: String){
+        ref.add(Event(cap, con, date))
     }
 
     fun selectEventAt(pos: Int){

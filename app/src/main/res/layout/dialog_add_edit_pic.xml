@@ -16,7 +16,15 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/edit_caption"
             android:layout_height="wrap_content"
-            android:hint="Enter url"
+            android:hint="Enter content"
+            android:textSize="24sp"
+    />
+    <EditText
+            android:id="@+id/edit_date"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/edit_url"
+            android:layout_height="wrap_content"
+            android:hint="Enter date"
             android:textSize="24sp"
     />
 

@@ -10,6 +10,7 @@ class NewsViewHolder(itemView: View, var adapter: NewsListAdapter): RecyclerView
 
     val caption = itemView.news_caption as TextView
     val newscontent = itemView.news_content as TextView
+    val date = itemView.news_date as TextView
 
     init {
         itemView.setOnClickListener {
@@ -19,8 +20,9 @@ class NewsViewHolder(itemView: View, var adapter: NewsListAdapter): RecyclerView
 
     }
 
-    fun bind(pic: News){
-        caption.text = pic.newscaption
-        newscontent.text = pic.newscontent
+    fun bind(n: News){
+        caption.text = n.newscaption
+        newscontent.text = n.newscontent
+        date.text = n.newsdate
     }
 }

@@ -21,6 +21,7 @@ class NewsFragment : Fragment() {
         adapter.addSnapshotListener()
 
 
+
     }
 
     override fun onCreateView(

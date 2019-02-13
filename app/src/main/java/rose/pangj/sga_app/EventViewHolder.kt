@@ -10,6 +10,7 @@ class EventViewHolder(itemView: View, var adapter: EventListAdapter): RecyclerVi
 
     val caption = itemView.event_caption as TextView
     val newscontent = itemView.event_content as TextView
+    val date = itemView.event_date as TextView
 
     init {
         itemView.setOnClickListener {
@@ -18,8 +19,9 @@ class EventViewHolder(itemView: View, var adapter: EventListAdapter): RecyclerVi
 
     }
 
-    fun bind(pic: Event){
-        caption.text = pic.newscaption
-        newscontent.text = pic.newscontent
+    fun bind(e: Event){
+        caption.text = e.newscaption
+        newscontent.text = e.newscontent
+        date.text = e.date
     }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class FAQFragment : Fragment() {
     override fun onCreateView(
@@ -20,6 +21,7 @@ class FAQFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+        (activity as MainActivity).fab.hide()
         return recyclerView
     }
 

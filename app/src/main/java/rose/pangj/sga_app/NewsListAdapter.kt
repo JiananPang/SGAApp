@@ -22,7 +22,7 @@ class NewsListAdapter(var context: Context?, var listener: NewsFragment.OnNewsSe
 
     fun showAddEditDialog(position: Int = -1) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Add a quote")
+        builder.setTitle("Add a News")
         val view = LayoutInflater.from(context).inflate(
             R.layout.dialog_add_edit_pic, null, false
         )
@@ -32,12 +32,14 @@ class NewsListAdapter(var context: Context?, var listener: NewsFragment.OnNewsSe
         if (position >= 0) {
             view.edit_caption.setText(newss[position].newscaption)
             view.edit_url.setText(newss[position].newscontent)
+            view.edit_date.setText(newss[position].newsdate)
         }
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             val caption = view.edit_caption.text.toString()
             var urlString = view.edit_url.text.toString()
-            add(caption,"", urlString)
+            val date = view.edit_date.text.toString()
+            add(caption, urlString, date)
 
         }
         builder.setNegativeButton(android.R.string.cancel, null)
@@ -129,8 +131,8 @@ class NewsListAdapter(var context: Context?, var listener: NewsFragment.OnNewsSe
     override fun getItemCount() = newss.size
 
 
-    fun add(cap: String, date: String, con: String){
-        ref.add(News(cap, date, con))
+    fun add(cap: String, con: String, date: String){
+        ref.add(News(cap,date, con))
     }
 
     fun selectNewsAt(pos: Int){
