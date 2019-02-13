@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(),
     var mFAQFragment = FAQFragment()
     val auth = FirebaseAuth.getInstance()
     var isAdmin = false
+    var isLogin = false
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_ROSEFIRE_LOGIN = 1
 
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity(),
                 }
                 fragmentTransaction(mNewsFragment)
                 mSenatorFragment = SenatorFragment()
+                isLogin = true
             }
         }
     }
@@ -127,6 +130,13 @@ class MainActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.action_logout ->{
                 auth.signOut()
+                if(item.title == "Login"){
+                    item.setTitle("Logout")
+                }
+                else{
+                    item.setTitle("Login")
+                    isLogin = false
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -162,9 +172,19 @@ class MainActivity : AppCompatActivity(),
             }
 
             R.id.suggestion_box -> {
-                switchTo = mSenatorFragment
-                fragmentTransaction(switchTo)
-                fab.hide()
+                if(isLogin == true){
+                    switchTo = mSenatorFragment
+                    fragmentTransaction(switchTo)
+                    fab.hide()
+
+                }
+                else{
+                    Toast.makeText(this,
+                        "Please log in first",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
 
             }
             R.id.documents -> {
