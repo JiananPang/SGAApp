@@ -10,6 +10,7 @@
 
     <TextView
             android:id="@+id/event_title_textView"
+            android:text="Hi"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_alignParentBottom="true"
@@ -17,6 +18,7 @@
 
 
     <TextView
+            android:text="Hi"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"

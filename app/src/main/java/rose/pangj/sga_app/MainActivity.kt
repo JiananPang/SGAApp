@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onEventSelected(event: Event) {
-        val fragment = EventFragment()
+        val fragment = EventDetailFragment.newInstance(event)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
         ft.addToBackStack("detail")
