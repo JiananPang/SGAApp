@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onRosefireLogin() {
-        val signInIntent = Rosefire.getSignInIntent(this, getString(R.string.token_str))
+        val signInIntent = Rosefire.getSignInIntent(this, "76fbcaed-1f89-4647-93c0-6302ae336ced")
         startActivityForResult(signInIntent, RC_ROSEFIRE_LOGIN)
     }
 

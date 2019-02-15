@@ -21,7 +21,7 @@ class UserChatListAdapter(var context: Context, var suid: String, var muid: Stri
     private lateinit var listenerRegistration: ListenerRegistration
 
     fun addSnapshotListener() {
-        listenerRegistration = messageRef
+        listenerRegistration = messageRef.orderBy("lastTouched")
             .addSnapshotListener { querySnapshot, e ->
                 if (e != null) {
                 } else {
