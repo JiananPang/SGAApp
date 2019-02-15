@@ -10,6 +10,7 @@ import com.google.firebase.firestore.ServerTimestamp
 class Senator(var name: String = "",
               var district: String = "",
               var uid: String = "",
+              var count: Int = 0,
               var src: Int = R.mipmap.anonymous_profile_round): Parcelable {
     @get:Exclude
     var id = ""
@@ -20,6 +21,7 @@ class Senator(var name: String = "",
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readInt(),
         parcel.readInt()
     )
 
@@ -27,6 +29,7 @@ class Senator(var name: String = "",
         parcel.writeString(name)
         parcel.writeString(district)
         parcel.writeString(uid)
+        parcel.writeInt(count)
         parcel.writeInt(src)
     }
 

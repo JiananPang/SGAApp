@@ -13,7 +13,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 
 
-class MessageExpandableAdapter(var context: Context?, var listener: SenatorFragment.OnSenatorSelectedListener?): RecyclerView.Adapter<MessageParentViewHolder>(){
+class MessageExpandableAdapter(var context: Context?, var listener: SenatorFragment.OnSenatorSelectedListener?,
+                               var count: Int): RecyclerView.Adapter<MessageParentViewHolder>(){
 
     private val ref = FirebaseFirestore
         .getInstance()
@@ -39,11 +40,12 @@ class MessageExpandableAdapter(var context: Context?, var listener: SenatorFragm
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val msg = Message.fromSnapshot(documentChange.document)
-            if (msg.receiveBy == "xix1") {
+            if (msg.receiveBy == "xix1" || msg.sendBy == "xix1") {
                 when (documentChange.type) {
                     DocumentChange.Type.ADDED -> {
                         Log.d(Constants.TAG, "Adding $msg")
-                        toggleList(msg)
+                        count+=1
+                        toggleList(msg, count)
                     }
                 }
             }
@@ -51,15 +53,21 @@ class MessageExpandableAdapter(var context: Context?, var listener: SenatorFragm
         Log.d(Constants.TAG, "msgslist $msgs")
     }
 
-    private fun toggleList(msg: Message) {
+    private fun toggleList(msg: Message, icount: Int) {
         idExists(msg)
-        students.add(0, Senator(msg.sendBy, msg.text, msg.sendBy))
+        if (msg.receiveBy == "xix1"){
+            students.add(0, Senator(msg.sendBy, msg.sendBy + ": " + msg.text, msg.sendBy, icount))
+        }else{
+            count-=1
+            students.add(0, Senator(msg.receiveBy, msg.sendBy + ": " + msg.text, msg.receiveBy, 0))
+        }
         notifyItemInserted(0)
+        msgs.add(0, msg)
     }
 
     private fun idExists(msg: Message){
         for (i in 0 until students.size){
-            if (students[i].uid == msg.sendBy){
+            if (students[i].uid == msg.sendBy || students[i].uid == msg.receiveBy){
                 students.remove(students[i])
                 notifyItemRemoved(i)
                 break

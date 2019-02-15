@@ -18,10 +18,11 @@ import com.google.firebase.firestore.QuerySnapshot
 class MessageFragment : Fragment() {
     lateinit var adapter: MessageExpandableAdapter
     private var listener: SenatorFragment.OnSenatorSelectedListener? = null
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = MessageExpandableAdapter(context, listener)
+        adapter = MessageExpandableAdapter(context, listener, count)
         adapter.addSnapshotListener()
     }
 
@@ -30,6 +31,7 @@ class MessageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        adapter.count = 0
         val recyclerView = inflater.inflate(R.layout.fragment_senate_message_list, container, false) as RecyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)

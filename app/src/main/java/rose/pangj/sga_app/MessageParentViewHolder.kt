@@ -16,6 +16,7 @@ class MessageParentViewHolder(itemView: View, var adapter: MessageExpandableAdap
 
     val name = itemView.senator_text_view as TextView
     val messageBody = itemView.district_text_view as TextView
+    val count = itemView.item_count_text as TextView
 
     init {
         itemView.setOnClickListener{
@@ -26,6 +27,7 @@ class MessageParentViewHolder(itemView: View, var adapter: MessageExpandableAdap
     fun bind(student: Senator) {
         name.text = student.name
         messageBody.text = student.district
-        Log.d(Constants.TAG, "msgslist bind")
+        count.text = student.count.toString()
+        if (student.count > 0) count.visibility = View.VISIBLE else count.visibility = View.INVISIBLE
     }
 }

@@ -54,11 +54,12 @@ class MainActivity : AppCompatActivity(),
             if(user == null){
                 fragmentTransaction(LogInFragment())
             }else {
-                if(user.uid == "xix1" || user.uid == "pangj"){
+                if(user.uid == "xix1"){
                     isAdmin = true
                 }
                 else{
                     fab.hide()
+                    isAdmin = false
                 }
                 fragmentTransaction(mNewsFragment)
                 mSenatorFragment = SenatorFragment()
@@ -173,7 +174,11 @@ class MainActivity : AppCompatActivity(),
 
             R.id.suggestion_box -> {
                 if(isLogin == true){
-                    switchTo = mSenatorFragment
+                    if (isAdmin){
+                        switchTo = MessageFragment()
+                    }else {
+                        switchTo = mSenatorFragment
+                    }
                     fragmentTransaction(switchTo)
                     fab.hide()
 
